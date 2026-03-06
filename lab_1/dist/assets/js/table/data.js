@@ -1,4 +1,4 @@
-games = [
+const games = [
     { id: 1,  game: "PERCEPTUAL",           duration: 54,  performance: 177, version: "alpha-0.14" },
     { id: 1,  game: "Отец",                duration: 89,  performance: 153, version: "prototype-0.3" },
     { id: 1,  game: "Jura: New Year 2026", duration: 86,  performance: 166, version: "demo-1.0" },

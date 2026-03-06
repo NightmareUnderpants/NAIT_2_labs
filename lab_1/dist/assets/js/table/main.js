@@ -4,13 +4,16 @@ document.addEventListener("DOMContentLoaded", function() {
     const sortForm = document.getElementById('sortForm');
     setSortSelects(games, sortForm);
 
+
+
     const fieldsFirst = document.getElementById('fieldsFirst');
-    fieldsFirst.addEventListener('change', () => {
-        changeNextSelect(fieldsFirst, 'fieldsSecond');
-    });
     const fieldsSecond = document.getElementById('fieldsSecond');
+    const fieldsThird = document.getElementById('fieldsThird');
+    fieldsFirst.addEventListener('change', () => {
+        changeNextSelect(fieldsFirst, 'fieldsSecond', 'fieldsThird');
+    });
     fieldsSecond.addEventListener('change', () => {
-        changeNextSelect(fieldsSecond, 'fieldsThird');
+        changeNextSelect(fieldsSecond, 'fieldsThird', 'fieldsThird');
     });
 
 
@@ -24,6 +27,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const resetSortBtn = document.getElementById("resetSortBtn");
     resetSortBtn.addEventListener('click', () => {
         sortForm.reset();
+        clearTable(idTable);
         createTable(games, 'table');
     })
     
@@ -80,15 +84,20 @@ const setSortSelects = (data, dataForm) => {
     }
 }
 
-const changeNextSelect = (curSelect, nextSelectId) => { 
-    let nextSelect = document.getElementById(nextSelectId); 
+const changeNextSelect = (curSelect, nextSelectId, thirdSelectId) => { 
+    let nextSelect = document.getElementById(nextSelectId);
+    let thirdSelect = document.getElementById(thirdSelectId);
     nextSelect.disabled = false; 
 
-    nextSelect.innerHTML = curSelect.innerHTML; 
+    nextSelect.innerHTML = curSelect.innerHTML;
+    thirdSelect.innerHTML = curSelect.innerHTML;
 
     if (curSelect.value != 0) { 
-        nextSelect.remove(curSelect.value); 
-    } else { 
-        nextSelect.disabled = true; 
+        nextSelect.remove(curSelect.value);
+    } else {
+        nextSelect.value = 0;
+        thirdSelect.value = 0;
+        nextSelect.disabled = true;
+        thirdSelect.disabled = true;
     } 
-} 
+}

@@ -17,6 +17,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById('filter');
 
     clearBtn.addEventListener('click', () => {
+        const sortForm = document.getElementById('sort');
+        sortForm.reset();
+        const selects = sortForm.getElementsByTagName('select');
+        for (const s of selects) s.innerHTML = "";
+
+        setSortSelects(buildings[0], sortForm);
+        clearFilter('list', form, buildings);
+
         clearFilter('list', form, buildings);
     })
 });
@@ -45,8 +53,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     resetSortBtn.addEventListener('click', () => {
         sortForm.reset();
+        const selects = sortForm.getElementsByTagName('select');
+        for (const s of selects) s.innerHTML = "";
+
+        const form = document.getElementById('filter');
+
         setSortSelects(buildings[0], sortForm);
-        createTable(buildings, 'list');
+        clearFilter('list', form, buildings);
     })
 });
 
@@ -67,7 +80,7 @@ const setSortSelect = (arr, sortSelect) => {
     // создаем OPTION Нет и добавляем ее в SELECT 
     sortSelect.append(createOption('Нет', 0)); 
     // перебираем массив со значениями опций 
-     arr.forEach((item, index) => { 
+    arr.forEach((item, index) => { 
        // создаем OPTION из очередного ключа и добавляем в SELECT 
        // значение атрибута VALUE увеличиваем на 1, так как значение 0 имеет опция Нет 
         sortSelect.append(createOption(item, index + 1)); 
@@ -84,18 +97,16 @@ const setSortSelects = (data, dataForm) => {
     const allSelect = dataForm.getElementsByTagName('select');
 
     let isFirst = true;
-    for (const item of dataForm.elements){
-        if (item.tagName === "SELECT") {
-            // формируем очередной SELECT
-            setSortSelect(head, item);
-            
-            // САМОСТОЯТЕЛЬНО все SELECT, кроме первого, сделать неизменяемым 
-            if (isFirst) {
-                isFirst = false;
-            }
-            else {
-                item.disabled = true;
-            }
+    for (const item of allSelect){
+        // формируем очередной SELECT
+        setSortSelect(head, item);
+        
+        // САМОСТОЯТЕЛЬНО все SELECT, кроме первого, сделать неизменяемым 
+        if (isFirst) {
+            isFirst = false;
+        }
+        else {
+            item.disabled = true;
         }
     }
 }

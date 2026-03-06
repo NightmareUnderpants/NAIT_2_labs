@@ -27,14 +27,6 @@ const dataFilter = (dataForm) => {
                 valInput = Infinity;
             }
         }
-        /* САМОСТОЯТЕЛЬНО обработать значения числовых полей:
-        - если в поле занесено значение - преобразовать valInput к числу;
-        - если поле пусто и его id включает From - занести в valInput
-        -бесконечность
-        - если поле пусто и его id включает To - занести в valInput
-        +бесконечность
-        */
-        // формируем очередной элемент ассоциативного массива
         dictFilter[item.id] = valInput;
     }
     return dictFilter;
@@ -59,13 +51,13 @@ const filterTable = (data, idTable, dataForm) =>{
             // САМОСТОЯТЕЛЬНО проверить числовые поля на принадлежность интервалу
             else if (typeof val === 'number') {
                 if (key === "duration") {
-                    result &= val >= datafilter.durationFrom && val < datafilter.durationTo;
+                    result &= val >= datafilter.durationFrom && val <= datafilter.durationTo;
                 }
                 if (key === "performance") {
-                    result &= val >= datafilter.performanceFrom && val < datafilter.performanceTo;
+                    result &= val >= datafilter.performanceFrom && val <= datafilter.performanceTo;
                 }
                 if (key === "id") {
-                    result &= val >= datafilter.playerIDFrom && val < datafilter.playerIDTo;
+                    result &= val >= datafilter.playerIDFrom && val <= datafilter.playerIDTo;
                 }
             }
         });
