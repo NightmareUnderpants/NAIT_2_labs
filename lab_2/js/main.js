@@ -19,7 +19,6 @@ document.addEventListener("DOMContentLoaded", function() {
     const pathMoveText = document.getElementById('pathMoveText');
 
     // settings forms
-    const settingsAnim_PathMove = document.getElementById('settingsAnim_PathMove');
     const settingsAnim_Coords = document.getElementById('settingsAnim_Coords');
     const settingsAnim_Scale = document.getElementById('settingsAnim_Scale');
     const settingsAnim_Rotate = document.getElementById('settingsAnim_Rotate');
@@ -40,10 +39,8 @@ document.addEventListener("DOMContentLoaded", function() {
         const isPathMove = pathMoveToggle.checked;
 
         // pathmovemode choice
-        settingsAnim_PathMove.hidden = !isPathMove;
+        settingsAnim_PathMove.hidden = true;
         settingsAnim_Coords.hidden = isPathMove;
-        settingsAnim_Scale.hidden = isPathMove;
-        settingsAnim_Rotate.hidden = isPathMove;
     });
 
     //// buttons
@@ -72,7 +69,7 @@ document.addEventListener("DOMContentLoaded", function() {
 })
 
 const draw = (dataForm, svg) => {
-    let pict = drawSmile(svg);
+    let pict = drawPentagram(svg);
 
     const cx = dataForm.cx.value;
     const cy = dataForm.cy.value;
@@ -87,7 +84,8 @@ const draw = (dataForm, svg) => {
 
 const runAnimation = (dataForm, animType, isPathMove) => {
     const svg = d3.select("svg")
-    let pict = drawSmile(svg);
+    let pict = drawPentagram(svg);
+    const duration = Math.max(0.1, Number(document.getElementById('duration')?.value) || 6) * 1000;
         
     const selectedType = animType.value;
 
@@ -105,19 +103,24 @@ const runAnimation = (dataForm, animType, isPathMove) => {
                 `scale(${dataForm.sx_from.value}, ${dataForm.sy_from.value}) ` +
                 `rotate(${dataForm.angle_from.value}) `) 
             .transition(svg)
-            .duration(6000)
+            .duration(duration)
             .ease(easeFunction)
             .attr("transform", `translate(${dataForm.cx_to.value}, ${dataForm.cy_to.value}) ` +
                 `scale(${dataForm.sx_to.value}, ${dataForm.sy_to.value}) ` +
                 `rotate(${dataForm.angle_to.value}) `);
     } else {
-        const pathMoveType = document.getElementById('pathMoveType');
-
-        let path = drawPath(pathMoveType.value);
+        let path = drawPath();
         
         pict.transition()
             .ease(easeFunction)
-            .duration(6000)
-            .attrTween('transform', translateAlong(path.node()));
+            .duration(duration)
+            .attrTween('transform', translateAlong(path.node(), {
+                sxFrom: Number(dataForm.sx_from.value),
+                sxTo: Number(dataForm.sx_to.value),
+                syFrom: Number(dataForm.sy_from.value),
+                syTo: Number(dataForm.sy_to.value),
+                angleFrom: Number(dataForm.angle_from.value),
+                angleTo: Number(dataForm.angle_to.value)
+            }));
     }
 }
