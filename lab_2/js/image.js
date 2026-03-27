@@ -34,6 +34,7 @@ function drawPentagram(svg) {
     star.append("path")
         .attr("d", line(starPoints));
 
+    // круги на концах
     points.forEach(([x, y]) => {
         star.append("circle")
             .attr("cx", x)

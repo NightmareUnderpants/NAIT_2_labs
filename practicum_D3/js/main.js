@@ -69,6 +69,10 @@ document.addEventListener("DOMContentLoaded", function() {
             svg.selectAll('*').remove();
         });
     });
+
+
+
+    init_list(books);
 })
 
 const draw = (dataForm, svg) => {
@@ -120,4 +124,44 @@ const runAnimation = (dataForm, animType, isPathMove) => {
             .duration(6000)
             .attrTween('transform', translateAlong(path.node()));
     }
+}
+
+
+const books = [
+    {
+        author: "Пушкин А. С.",
+        book: ["Стихи и поэмы", "Дубровский", "Евгений Онегин"]
+    },
+    {
+        author: "Булгаков М.А.",
+        book: ["Мастер и маргарита", "Белая гвардия"]
+    },
+    {
+        author: "Достоевский Ф.М.",
+        book: ["Игрок", "Идиот", "Преступление и наказание"]
+    }
+]
+
+const init_list = (listData) => {
+    const list = d3.select("#list");
+    
+    const authors = list
+        .selectAll("li")
+        .data(listData)
+        .join("li");
+
+    authors
+        .selectAll("span")
+        .data(d => [d.author])
+        .join("span")
+        .text(d => d);
+
+    authors
+        .selectAll("ul")
+        .data(d => [d.book])
+        .join("ul")
+        .selectAll("li")
+        .data(d => d)
+        .join("li")
+        .text(d => d);
 }
