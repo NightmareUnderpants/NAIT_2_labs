@@ -29,5 +29,7 @@ const showTable = (idTable, data) => {
 const clearTable = (idTable) => {
     const table = d3.select("#" + idTable);
 
-    table.selectAll("*").remove();
+    table
+        .selectAll("*")
+        .remove();
 }
