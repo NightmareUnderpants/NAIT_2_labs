@@ -83,7 +83,7 @@ function createAxis(svg, data, attr_area, mode) {
 }
 
 function createChartCircle(svg, data, scaleX, scaleY, attr_area, color, mode) {
-    const r = 4;
+    const r = 6;
 
     if (mode == 0 || mode == 2) {
         svg.selectAll(".dot-max")

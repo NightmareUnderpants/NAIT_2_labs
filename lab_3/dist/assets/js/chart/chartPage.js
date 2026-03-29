@@ -10,10 +10,12 @@ document.addEventListener("DOMContentLoaded", function() {
     const performanceSeries = chartSettings.querySelector("#performance_series");
     const chartType = chartSettings.querySelector("#chart_type");
 
-    buildBtn.addEventListener("click", function(event) {
-        event.preventDefault();
+    const err = chartSettings.querySelector("#errMessage");
 
+    buildBtn.addEventListener("click", function() {
         const xAxis = chartSettings.querySelector("input[name='x_axis']:checked");
+
+        clearErr(chartSettings);
 
         let selectedChart = 0;
 
@@ -24,7 +26,7 @@ document.addEventListener("DOMContentLoaded", function() {
         } else if (!durationSeries.checked && performanceSeries.checked) {
             selectedChart = 1;
         } else {
-            clearGraph();
+            showErr(err);
             return;
         }
 
@@ -32,3 +34,13 @@ document.addEventListener("DOMContentLoaded", function() {
         drawGraph(games, selectedChart, xAxis.value, chartType.value);
     });
 });
+
+function showErr(err) {
+    err.insertAdjacentHTML("afterbegin", "<p class=\"text-danger mt-2\">Выберите хотя бы одно значение</p>");
+}
+
+function clearErr(chartSettings) {
+    var errMessage = chartSettings.querySelector(".text-danger");
+    if (errMessage)
+        errMessage.remove();
+}
