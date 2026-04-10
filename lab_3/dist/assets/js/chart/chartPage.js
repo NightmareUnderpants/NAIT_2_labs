@@ -15,8 +15,6 @@ document.addEventListener("DOMContentLoaded", function() {
     buildBtn.addEventListener("click", function() {
         const xAxis = chartSettings.querySelector("input[name='x_axis']:checked");
 
-        clearErr(chartSettings);
-
         let selectedChart = 0;
 
         if (durationSeries.checked && performanceSeries.checked) {
@@ -27,11 +25,19 @@ document.addEventListener("DOMContentLoaded", function() {
             selectedChart = 1;
         } else {
             showErr(err);
+            drawGraph(games, selectedChart, undefined, undefined, true);
             return;
         }
 
         clearGraph();
         drawGraph(games, selectedChart, xAxis.value, chartType.value);
+    });
+
+    durationSeries.addEventListener("change", function() {
+        clearErr(chartSettings);
+    });
+    performanceSeries.addEventListener("change", function() {
+        clearErr(chartSettings);
     });
 });
 

@@ -15,7 +15,7 @@ function createArrGraph(data, key, mode = 0) {
     return arrGraph;
 }
 
-function drawGraph(data, mode = 0, keyXValue = "version", typeGraphValue = "dot") {
+function drawGraph(data, mode = 0, keyXValue = "version", typeGraphValue = "dot", err = false) {
     const arrGraph = createArrGraph(data, keyXValue);
     
     const svg = d3.select("svg");
@@ -29,13 +29,15 @@ function drawGraph(data, mode = 0, keyXValue = "version", typeGraphValue = "dot"
     };
 
     const [scX, scY] = createAxis(svg, arrGraph, attr_area, mode);
+    if (!err) {
+        if (typeGraphValue === "bar")
+            createChartBar(svg, arrGraph, scX, scY, attr_area, "red", mode);
+        else if (typeGraphValue === "line")
+            createChartLine(svg, arrGraph, scX, scY, attr_area, "red", mode);
+        else
+            createChartCircle(svg, arrGraph, scX, scY, attr_area, "red", mode);
 
-    if (typeGraphValue === "bar")
-        createChartBar(svg, arrGraph, scX, scY, attr_area, "red", mode);
-    else if (typeGraphValue === "line")
-        createChartLine(svg, arrGraph, scX, scY, attr_area, "red", mode);
-    else
-        createChartCircle(svg, arrGraph, scX, scY, attr_area, "red", mode);
+    }
 }
 
 function clearGraph() {
