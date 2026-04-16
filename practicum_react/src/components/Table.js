@@ -12,19 +12,20 @@ import Filter from './Filter.js';
 */
 const Table = (props) => {
     const [dataTable, setDataTable] = useState(props.data);
-    const [activePage, setActivePage] = useState("1");
+    
+    const n = Math.max(1, Math.ceil(dataTable.length / props.amountRows));
+    const arr = Array.from({ length: n }, (v, i) => i + 1);
 
+    const [activePage, setActivePage] = useState(n.toString());
     const changeActive = (event) => {
         setActivePage(event.target.innerHTML);
     };
 
     const updateDataTable = (value) => {
         setDataTable(value);
-        setActivePage("1");
+        const lastPage = Math.max(1, Math.ceil(value.length / props.amountRows));
+        setActivePage(lastPage.toString());
     };
-
-    const n = Math.max(1, Math.ceil(dataTable.length / props.amountRows));
-    const arr = Array.from({ length: n }, (v, i) => i + 1);
 
     const pages = arr.map((item, index) =>
         <span key={index} onClick={changeActive}

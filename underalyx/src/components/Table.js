@@ -52,10 +52,10 @@ const Table = (props) => {
                 {pages}
             </div>
 
-            <h3 class="text-center">Фильтрация данных</h3>
+            <h3 className="text-center">Фильтрация данных</h3>
             {<Filter filtering={updateDataTable} fullData={props.data} />}
 
-            <h3 class="text-center">Сортировка данных</h3>
+            <h3 className="text-center">Сортировка данных</h3>
             {<Sort sorting={updateDataTable} fullData={props.data} />}
         </>
     );

@@ -60,26 +60,26 @@ const Filter = (props) => {
         <form className="card card-soft p-3" id="filter" onSubmit={handleSubmit} onReset={handleReset}>
           <div className="row g-3">
             <div className="col-12 col-md-6 col-lg-4">
-              <label className="form-label fw-semibold" for="id">ID</label>
+              <label className="form-label fw-semibold" htmlFor="id">ID</label>
               <input className="form-control" type="number" name="idFrom" placeholder="например: 3"></input>
               <input className="form-control" type="number" name="idTo" placeholder="например: 8"></input>
             </div>
             <div className="col-12 col-md-6 col-lg-4">
-              <label className="form-label fw-semibold" for="game">Игра</label>
-              <input className="form-control" type="text" name="game" placeholder="например: PERCEPTUAL"></input>
+              <label className="form-label fw-semibold" htmlFor="performance">Производительность</label>
+              <input className="form-control" type="number" name="performanceFrom" placeholder="например: 170"></input>
+              <input className="form-control" type="number" name="performanceTo" placeholder="например: 200"></input>
             </div>
-            <div className="col-12 col-lg-4">
-              <label className="form-label fw-semibold" for="duration">Продолжительность (мин)</label>
+            <div className="col-12 col-md-6 col-lg-4">
+              <label className="form-label fw-semibold" htmlFor="duration">Продолжительность (мин)</label>
               <input className="form-control" type="number" name="durationFrom" placeholder="например: 20"></input>
               <input className="form-control" type="number" name="durationTo" placeholder="например: 90"></input>
             </div>
             <div className="col-12 col-lg-6">
-              <label className="form-label fw-semibold" for="performance">Производительность</label>
-              <input className="form-control" type="number" name="performanceFrom" placeholder="например: 170"></input>
-              <input className="form-control" type="number" name="performanceTo" placeholder="например: 200"></input>
+              <label className="form-label fw-semibold" htmlFor="game">Игра</label>
+              <input className="form-control" type="text" name="game" placeholder="например: PERCEPTUAL"></input>
             </div>
             <div className="col-12 col-lg-6">
-              <label className="form-label fw-semibold" for="version">Версия</label>
+              <label className="form-label fw-semibold" htmlFor="version">Версия</label>
               <input className="form-control" type="text" name="version" placeholder="например: beta"></input>
             </div>
           </div>

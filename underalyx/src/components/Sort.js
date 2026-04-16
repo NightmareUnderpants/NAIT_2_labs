@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 /*
     компонент для сортировки таблицы
     props:
@@ -7,114 +5,59 @@ import { useState } from "react";
         sorting - функция обновления данных для сортировки
 */
 const Sort = (props) => {
-    const columns = ["ID", "Игра", "Продолжительность", "Производительность", "Версия"];
-
-    const [sortConfig, setSortConfig] = useState({
-        field1: "",
-        desc1: false,
-        field2: "",
-        desc2: false,
-        field3: "",
-        desc3: false
-    });
-
-    const handleChange = (event) => {
-        const { name, value, type, checked } = event.target;
-
-        setSortConfig((prev) => {
-            const next = {
-                ...prev,
-                [name]: type === "checkbox" ? checked : value
-            };
-
-            if (name === "field1" && value === "") {
-                next.field2 = "";
-                next.desc2 = false;
-                next.field3 = "";
-                next.desc3 = false;
-            }
-
-            if (name === "field1" && value !== prev.field1) {
-                next.field2 = "";
-                next.desc2 = false;
-                next.field3 = "";
-                next.desc3 = false;
-            }
-
-            if (name === "field2" && value === "") {
-                next.field3 = "";
-                next.desc3 = false;
-            }
-
-            if (name === "field2" && value !== prev.field2) {
-                next.field3 = "";
-                next.desc3 = false;
-            }
-
-            return next;
-        });
-    };
+    const columns = Object.keys(props.fullData[0]);
 
     const handleSort = (event) => {
         event.preventDefault();
 
-        const rules = [
-            { field: sortConfig.field1, desc: sortConfig.desc1 },
-            { field: sortConfig.field2, desc: sortConfig.desc2 },
-            { field: sortConfig.field3, desc: sortConfig.desc3 }
-        ].filter((rule) => rule.field !== "");
+        const sortFields = [
+            {
+                field: event.target.fieldFirst.value,
+                desc: event.target.descFirst.checked
+            },
+            {
+                field: event.target.fieldSecond.value,
+                desc: event.target.descSecond.checked
+            },
+            {
+                field: event.target.fieldThird.value,
+                desc: event.target.descThird.checked
+            }
+        ];
 
-        if (rules.length === 0) {
-            props.sorting(props.fullData);
-            return;
-        }
+        let arr = [...props.fullData];
 
-        const sorted = [...props.fullData].sort((a, b) => {
-            for (const rule of rules) {
-                let valueA = a[rule.field];
-                let valueB = b[rule.field];
+        arr.sort((a, b) => {
+            for (const item of sortFields) {
+                let firstValue = a[item.field];
+                let secondValue = b[item.field];
 
-                if (typeof valueA === "string") {
-                    valueA = valueA.toLowerCase();
+                if (typeof firstValue === "string") {
+                    firstValue = firstValue.toLowerCase();
                 }
 
-                if (typeof valueB === "string") {
-                    valueB = valueB.toLowerCase();
+                if (typeof secondValue === "string") {
+                    secondValue = secondValue.toLowerCase();
                 }
 
-                if (valueA < valueB) {
-                    return rule.desc ? 1 : -1;
+                if (firstValue < secondValue) {
+                    return item.desc ? 1 : -1;
                 }
 
-                if (valueA > valueB) {
-                    return rule.desc ? -1 : 1;
+                if (firstValue > secondValue) {
+                    return item.desc ? -1 : 1;
                 }
             }
 
             return 0;
         });
 
-        props.sorting(sorted);
+        props.sorting(arr);
     };
 
     const handleReset = () => {
-        setSortConfig({
-            field1: "",
-            desc1: false,
-            field2: "",
-            desc2: false,
-            field3: "",
-            desc3: false
-        });
-
         props.sorting(props.fullData);
     };
-
-    const firstLevelOptions = columns;
-    const secondLevelOptions = columns.filter((item) => item !== sortConfig.field1);
-    const thirdLevelOptions = columns.filter(
-        (item) => item !== sortConfig.field1 && item !== sortConfig.field2
-    );
 
     return (
         <form className="card card-soft p-3 table-page__card" onSubmit={handleSort} onReset={handleReset}>
@@ -123,25 +66,18 @@ const Sort = (props) => {
                     <label className="form-label fw-semibold" htmlFor="fieldsFirst">Первичная сортировка:</label>
                     <select
                         className="form-select"
-                        name="field1"
-                        id="fieldsFirst"
-                        value={sortConfig.field1}
-                        onChange={handleChange}
+                        name="fieldFirst"
                     >
                         <option value="">Не выбрано</option>
-                        {firstLevelOptions.map((item) => (
+                        {columns.map((item) => (
                             <option key={item} value={item}>{item}</option>
                         ))}
                     </select>
                     <div className="form-check form-check-inline mt-2">
                         <input
                             className="form-check-input"
-                            id="fieldsFirstDesc"
-                            name="desc1"
+                            name="descFirst"
                             type="checkbox"
-                            checked={sortConfig.desc1}
-                            onChange={handleChange}
-                            disabled={!sortConfig.field1}
                         />
                         <label className="form-check-label" htmlFor="fieldsFirstDesc">По убыванию</label>
                     </div>
@@ -151,14 +87,10 @@ const Sort = (props) => {
                     <label className="form-label fw-semibold" htmlFor="fieldsSecond">Вторичная сортировка:</label>
                     <select
                         className="form-select"
-                        name="field2"
-                        id="fieldsSecond"
-                        value={sortConfig.field2}
-                        onChange={handleChange}
-                        disabled={!sortConfig.field1}
+                        name="fieldSecond"
                     >
                         <option value="">Не выбрано</option>
-                        {secondLevelOptions.map((item) => (
+                        {columns.map((item) => (
                             <option key={item} value={item}>{item}</option>
                         ))}
                     </select>
@@ -166,11 +98,7 @@ const Sort = (props) => {
                         <input
                             className="form-check-input"
                             id="fieldsSecondDesc"
-                            name="desc2"
                             type="checkbox"
-                            checked={sortConfig.desc2}
-                            onChange={handleChange}
-                            disabled={!sortConfig.field2}
                         />
                         <label className="form-check-label" htmlFor="fieldsSecondDesc">По убыванию</label>
                     </div>
@@ -180,26 +108,18 @@ const Sort = (props) => {
                     <label className="form-label fw-semibold" htmlFor="fieldsThird">Третичная сортировка:</label>
                     <select
                         className="form-select"
-                        name="field3"
-                        id="fieldsThird"
-                        value={sortConfig.field3}
-                        onChange={handleChange}
-                        disabled={!sortConfig.field2}
+                        name="fieldThird"
                     >
                         <option value="">Не выбрано</option>
-                        {thirdLevelOptions.map((item) => (
+                        {columns.map((item) => (
                             <option key={item} value={item}>{item}</option>
                         ))}
                     </select>
                     <div className="form-check form-check-inline mt-2">
                         <input
                             className="form-check-input"
-                            id="fieldsThirdDesc"
-                            name="desc3"
+                            name="descThird"
                             type="checkbox"
-                            checked={sortConfig.desc3}
-                            onChange={handleChange}
-                            disabled={!sortConfig.field3}
                         />
                         <label className="form-check-label" htmlFor="fieldsThirdDesc">По убыванию</label>
                     </div>
