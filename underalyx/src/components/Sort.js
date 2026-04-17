@@ -14,12 +14,30 @@ const Sort = (props) => {
     const [selectSecond, setSelectSecond] = useState("");
     const [selectThird, setSelectThird] = useState("");
 
+    const setColumn = (options = []) =>
+        columns
+            .filter((item) => !options.includes(item))
+            .map((item) => (
+                <option key={item} value={item}>{item}</option>
+            ));
+
     const changeSelectFirst = (event) => {
         const value = event.target.value;
         setSelectFirst(value);
 
         if (value === "") {
             setSelectSecond("");
+            setSelectThird("");
+            return;
+        }
+
+        if (value === selectSecond) {
+            setSelectSecond("");
+            setSelectThird("");
+            return;
+        }
+
+        if (value === selectThird) {
             setSelectThird("");
         }
     };
@@ -28,7 +46,7 @@ const Sort = (props) => {
         const value = event.target.value;
         setSelectSecond(value);
 
-        if (value === "") {
+        if (value === "" || value === selectThird) {
             setSelectThird("");
         }
     };
@@ -40,12 +58,7 @@ const Sort = (props) => {
     const handleSort = (event) => {
         event.preventDefault();
 
-        const sortFields = [
-            event.target.fieldFirst.value,
-            event.target.fieldSecond.value,
-            event.target.fieldThird.value
-        ].filter(Boolean);
-
+        const sortFields = [selectFirst, selectSecond, selectThird].filter(Boolean);
         let arr = [...props.data];
 
         arr.sort((a, b) => {
@@ -95,9 +108,7 @@ const Sort = (props) => {
                         onChange={changeSelectFirst}
                     >
                         <option value="">Не выбрано</option>
-                        {columns.map((item) => (
-                            <option key={item} value={item}>{item}</option>
-                        ))}
+                        {setColumn()}
                     </select>
                 </div>
 
@@ -108,11 +119,10 @@ const Sort = (props) => {
                         name="fieldSecond"
                         value={selectSecond}
                         onChange={changeSelectSecond}
+                        disabled={!selectFirst}
                     >
                         <option value="">Не выбрано</option>
-                        {columns.map((item) => (
-                            <option key={item} value={item}>{item}</option>
-                        ))}
+                        {setColumn([selectFirst])}
                     </select>
                 </div>
 
@@ -123,11 +133,10 @@ const Sort = (props) => {
                         name="fieldThird"
                         value={selectThird}
                         onChange={changeSelectThird}
+                        disabled={!selectSecond}
                     >
                         <option value="">Не выбрано</option>
-                        {columns.map((item) => (
-                            <option key={item} value={item}>{item}</option>
-                        ))}
+                        {setColumn([selectFirst, selectSecond])}
                     </select>
                 </div>
             </div>
