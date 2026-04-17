@@ -1,36 +1,57 @@
+import { useState } from "react";
+
 /*
-    компонент для сортировки таблицы
+    Компонент для сортировки таблицы
     props:
         fullData - полные данные
-        sorting - функция обновления данных для сортировки
+        data - текущие данные таблицы
+        sorting - функция обновления данных после сортировки
 */
 const Sort = (props) => {
     const columns = Object.keys(props.fullData[0]);
+
+    const [selectFirst, setSelectFirst] = useState("");
+    const [selectSecond, setSelectSecond] = useState("");
+    const [selectThird, setSelectThird] = useState("");
+
+    const changeSelectFirst = (event) => {
+        const value = event.target.value;
+        setSelectFirst(value);
+
+        if (value === "") {
+            setSelectSecond("");
+            setSelectThird("");
+        }
+    };
+
+    const changeSelectSecond = (event) => {
+        const value = event.target.value;
+        setSelectSecond(value);
+
+        if (value === "") {
+            setSelectThird("");
+        }
+    };
+
+    const changeSelectThird = (event) => {
+        setSelectThird(event.target.value);
+    };
 
     const handleSort = (event) => {
         event.preventDefault();
 
         const sortFields = [
-            {
-                field: event.target.fieldFirst.value,
-                desc: event.target.descFirst.checked
-            },
-            {
-                field: event.target.fieldSecond.value,
-                desc: event.target.descSecond.checked
-            },
-            {
-                field: event.target.fieldThird.value,
-                desc: event.target.descThird.checked
-            }
-        ];
+            event.target.fieldFirst.value,
+            event.target.fieldSecond.value,
+            event.target.fieldThird.value
+        ].filter(Boolean);
 
-        let arr = [...props.fullData];
+        let arr = [...props.data];
 
         arr.sort((a, b) => {
             for (const item of sortFields) {
-                let firstValue = a[item.field];
-                let secondValue = b[item.field];
+                let firstValue = a[item];
+                let secondValue = b[item];
 
                 if (typeof firstValue === "string") {
                     firstValue = firstValue.toLowerCase();
@@ -41,11 +62,11 @@ const Sort = (props) => {
                 }
 
                 if (firstValue < secondValue) {
-                    return item.desc ? 1 : -1;
+                    return -1;
                 }
 
                 if (firstValue > secondValue) {
-                    return item.desc ? -1 : 1;
+                    return 1;
                 }
             }
 
@@ -56,7 +77,10 @@ const Sort = (props) => {
     };
 
     const handleReset = () => {
-        props.sorting(props.fullData);
+        setSelectFirst("");
+        setSelectSecond("");
+        setSelectThird("");
+        props.reset();
     };
 
     return (
@@ -67,20 +91,14 @@ const Sort = (props) => {
                     <select
                         className="form-select"
                         name="fieldFirst"
+                        value={selectFirst}
+                        onChange={changeSelectFirst}
                     >
                         <option value="">Не выбрано</option>
                         {columns.map((item) => (
                             <option key={item} value={item}>{item}</option>
                         ))}
                     </select>
-                    <div className="form-check form-check-inline mt-2">
-                        <input
-                            className="form-check-input"
-                            name="descFirst"
-                            type="checkbox"
-                        />
-                        <label className="form-check-label" htmlFor="fieldsFirstDesc">По убыванию</label>
-                    </div>
                 </div>
 
                 <div className="col-12 col-lg-4">
@@ -88,20 +106,14 @@ const Sort = (props) => {
                     <select
                         className="form-select"
                         name="fieldSecond"
+                        value={selectSecond}
+                        onChange={changeSelectSecond}
                     >
                         <option value="">Не выбрано</option>
                         {columns.map((item) => (
                             <option key={item} value={item}>{item}</option>
                         ))}
                     </select>
-                    <div className="form-check form-check-inline mt-2">
-                        <input
-                            className="form-check-input"
-                            id="fieldsSecondDesc"
-                            type="checkbox"
-                        />
-                        <label className="form-check-label" htmlFor="fieldsSecondDesc">По убыванию</label>
-                    </div>
                 </div>
 
                 <div className="col-12 col-lg-4">
@@ -109,20 +121,14 @@ const Sort = (props) => {
                     <select
                         className="form-select"
                         name="fieldThird"
+                        value={selectThird}
+                        onChange={changeSelectThird}
                     >
                         <option value="">Не выбрано</option>
                         {columns.map((item) => (
                             <option key={item} value={item}>{item}</option>
                         ))}
                     </select>
-                    <div className="form-check form-check-inline mt-2">
-                        <input
-                            className="form-check-input"
-                            name="descThird"
-                            type="checkbox"
-                        />
-                        <label className="form-check-label" htmlFor="fieldsThirdDesc">По убыванию</label>
-                    </div>
                 </div>
             </div>
 

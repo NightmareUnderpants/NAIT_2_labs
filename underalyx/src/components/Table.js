@@ -15,6 +15,7 @@ import Sort from './Sort.js';
 const Table = (props) => {
     const [dataTable, setDataTable] = useState(props.data);
     const [activePage, setActivePage] = useState("1");
+    const [resetKey, setResetKey] = useState(0);
 
     const changeActive = (event) => {
         setActivePage(event.target.innerHTML);
@@ -23,6 +24,12 @@ const Table = (props) => {
     const updateDataTable = (value) => {
         setDataTable(value);
         setActivePage("1");
+    };
+
+    const resetAll = () => {
+        setDataTable(props.data);
+        setActivePage("1");
+        setResetKey((prev) => prev + 1);
     };
 
     const n = Math.max(1, Math.ceil(dataTable.length / props.amountRows));
@@ -53,10 +60,10 @@ const Table = (props) => {
             </div>
 
             <h3 className="text-center">Фильтрация данных</h3>
-            {<Filter filtering={updateDataTable} fullData={props.data} />}
+            {<Filter key={`filter-${resetKey}`} filtering={updateDataTable} data={dataTable} fullData={props.data} reset={resetAll}/>}
 
             <h3 className="text-center">Сортировка данных</h3>
-            {<Sort sorting={updateDataTable} fullData={props.data} />}
+            {<Sort key={`sort-${resetKey}`} sorting={updateDataTable} data={dataTable} fullData={props.data} reset={resetAll}/>}
         </>
     );
 };

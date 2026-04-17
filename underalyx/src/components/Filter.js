@@ -53,7 +53,7 @@ const Filter = (props) => {
     };
 
     const handleReset = () => {
-        props.filtering(props.fullData);
+        props.reset();
     };
 
     return (
