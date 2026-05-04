@@ -24,12 +24,20 @@ const Table = (props) => {
     const updateDataTable = (value) => {
         setDataTable(value);
         setActivePage("1");
+
+        if (props.onDataChange) {
+            props.onDataChange(value);
+        }
     };
 
     const resetAll = () => {
         setDataTable(props.data);
         setActivePage("1");
         setResetKey((prev) => prev + 1);
+
+        if (props.onDataChange) {
+            props.onDataChange(props.data);
+        }
     };
 
     const n = Math.max(1, Math.ceil(dataTable.length / props.amountRows));

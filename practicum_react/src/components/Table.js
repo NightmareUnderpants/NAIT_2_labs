@@ -12,23 +12,31 @@ import Filter from './Filter.js';
 */
 const Table = (props) => {
     const [dataTable, setDataTable] = useState(props.data);
-    
+
     const n = Math.max(1, Math.ceil(dataTable.length / props.amountRows));
     const arr = Array.from({ length: n }, (v, i) => i + 1);
 
-    const [activePage, setActivePage] = useState(n.toString());
+    const [activePage, setActivePage] = useState("1");
+
     const changeActive = (event) => {
         setActivePage(event.target.innerHTML);
     };
 
     const updateDataTable = (value) => {
         setDataTable(value);
+
+        if (props.filtering) {
+            props.filtering(value);
+        }
+
         const lastPage = Math.max(1, Math.ceil(value.length / props.amountRows));
         setActivePage(lastPage.toString());
     };
 
     const pages = arr.map((item, index) =>
-        <span key={index} onClick={changeActive}
+        <span
+            key={index}
+            onClick={changeActive}
             className={activePage === `${index + 1}`
                 ? "pageNum pageNum-current"
                 : "pageNum"}
@@ -37,14 +45,18 @@ const Table = (props) => {
         </span>
     );
 
-    return(
+    return (
         <>
             <h4>Фильтры</h4>
+
             <Filter filtering={updateDataTable} fullData={props.data} />
 
             <table className="table">
                 <TableHead head={Object.keys(props.data[0])} />
-                <TableBody body={dataTable} isPagination={props.isPagination}
+
+                <TableBody
+                    body={dataTable}
+                    isPagination={props.isPagination}
                     amountRows={props.isPagination ? props.amountRows : null}
                     numPage={props.isPagination ? activePage : null}
                 />
