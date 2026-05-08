@@ -104,3 +104,7 @@ svg path, line {
 svg text {
   font: 8px Verdana;
 }
+
+.red-text {
+  color: red;
+}

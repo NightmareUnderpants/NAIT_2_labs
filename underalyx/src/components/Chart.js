@@ -83,22 +83,24 @@ const Chart = (props) => {
                     <div className="col-12 col-lg-4">
                         <p className="form-label fw-semibold">Значение по оси OY:</p>
 
-                        <div className="form-check">
+                        <div className={error !== "" ? "form-check text-danger" : "form-check"}>
                             <input
                                 className="form-check-input"
                                 type="checkbox"
                                 name="oy"
                                 defaultChecked={oy[0] === true}
+                                onClick={() => setError("")}
                             />
                             <label className="form-check-label">Продолжительность</label>
                         </div>
 
-                        <div className="form-check">
+                        <div className={error !== "" ? "form-check text-danger" : "form-check"}>
                             <input
                                 className="form-check-input"
                                 type="checkbox"
                                 name="oy"
                                 defaultChecked={oy[1] === true}
+                                onClick={() => setError("")}
                             />
                             <label className="form-check-label">Производительность</label>
                         </div>

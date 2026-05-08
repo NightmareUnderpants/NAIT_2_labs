@@ -25,9 +25,7 @@ const Table = (props) => {
         setDataTable(value);
         setActivePage("1");
 
-        if (props.onDataChange) {
-            props.onDataChange(value);
-        }
+        props.onDataChange(value);
     };
 
     const resetAll = () => {
@@ -35,9 +33,7 @@ const Table = (props) => {
         setActivePage("1");
         setResetKey((prev) => prev + 1);
 
-        if (props.onDataChange) {
-            props.onDataChange(props.data);
-        }
+        props.onDataChange(props.data);
     };
 
     const n = Math.max(1, Math.ceil(dataTable.length / props.amountRows));

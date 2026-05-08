@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import * as d3 from "d3";
 import ChartDraw from "./ChartDraw.js";
 
@@ -76,11 +76,12 @@ const Chart = (props) => {
 
                 <p> Значение по оси OY </p>
 
-                <div>
+                <div className={error !== "" ? "red-text" : ""}>
                     <input
                         type="checkbox"
                         name="oy"
                         defaultChecked={oy[0] === true}
+                        onClick={() => setError("")}
                     />
                     Максимальная высота
                     <br />
@@ -89,6 +90,7 @@ const Chart = (props) => {
                         type="checkbox"
                         name="oy"
                         defaultChecked={oy[1] === true}
+                        onClick={() => setError("")}
                     />
                     Минимальная высота
                 </div>
@@ -110,15 +112,15 @@ const Chart = (props) => {
                 </p>
             </form>
 
-            {error !== "" && <p>{error}</p>}
+            {error !== "" ? <p>{error}</p> : null}
 
-            {error === "" && (
+            {error === "" ? (
                 <ChartDraw
                     data={createArrGraph(props.data, ox)}
                     oy={oy}
                     chartType={chartType}
                 />
-            )}
+            ) : () => null}
         </>
     );
 };
