@@ -12,20 +12,9 @@ function Footer() {
         <Typography variant="h5" sx={{ textAlign: 'center' }} gutterBottom>
           {pageText.about}
         </Typography>
-        <Typography color="text.secondary" sx={{ mb: 2, textAlign: 'center' }}>
+        <Typography sx={{ mb: 2, textAlign: 'center' }}>
           {pageText.author}
         </Typography>
-        <Stack direction="row" spacing={1} sx={{ justifyContent: 'center', flexWrap: 'wrap' }}>
-          <Button variant="outlined" href="mailto:contact@perseptual.org">
-            {pageText.mail}
-          </Button>
-          <Button variant="outlined" href="/">
-            Discord
-          </Button>
-          <Button variant="outlined" href="/">
-            Telegram channel
-          </Button>
-        </Stack>
       </Container>
     </Box>
   );

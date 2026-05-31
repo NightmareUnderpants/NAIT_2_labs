@@ -1,100 +1,115 @@
 import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import { styled } from '@mui/material/styles';
+import Container from '@mui/material/Container';
+import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Container from '@mui/material/Container';
-import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
+import MenuIcon from '@mui/icons-material/Menu';
+import Drawer from '@mui/material/Drawer';
+import React from 'react';
 import MenuItem from '@mui/material/MenuItem';
 import MenuList from '@mui/material/MenuList';
-import TextField from '@mui/material/TextField';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
-import MenuIcon from '@mui/icons-material/Menu';
-import React from 'react';
+
+const StyledToolbar = styled(Toolbar)(({ theme }) => ({
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    flexShrink: 0,
+    borderRadius: `calc(${theme.shape.borderRadius}px + 8px)`,
+    border: '1px solid',
+    borderColor: theme.palette.divider,
+    padding: '8px 12px',
+}));
 
 const menuItemSx = {
-  '&:hover': {
-    bgcolor: 'rgba(41, 182, 246, 0.16)',
-  },
+    '&:hover': {
+        bgcolor: 'rgba(41, 182, 246, 0.16)',
+    },
 };
 
-const pages = [
-  { id: '1', label: 'Главная' },
-  { id: '2', label: 'Таблица' },
-  { id: '3', label: 'Список игр' },
-  { id: '4', label: 'Партнеры' },
-];
-
 interface ComponentProps {
-  active: string;
+    active: string;
 }
 
-function Navbar({ active }: ComponentProps) {
-  const [open, setOpen] = React.useState(false);
+function Navbar({ active } : ComponentProps) {
+    const [open, setOpen] = React.useState(false);
+    
+    const toggleDrawer = (newOpen: boolean) => () => {
+        setOpen(newOpen);
+    };
 
-  const toggleDrawer = (newOpen: boolean) => () => {
-    setOpen(newOpen);
-  };
+    const buttonVariant = (page: string) => active === page ? 'contained' : 'text';
+    const drawerItemSx = (page: string) => active === page
+        ? { ...menuItemSx, bgcolor: 'info.main', color: 'info.contrastText' }
+        : menuItemSx;
 
-  const buttonVariant = (page: string) => (active === page ? 'contained' : 'text');
-  const drawerItemSx = (page: string) =>
-    active === page ? { ...menuItemSx, bgcolor: 'info.main', color: 'info.contrastText' } : menuItemSx;
+    return (
+        <AppBar
+            position="static"
+            sx={{
+            boxShadow: 0,
+            bgcolor: 'transparent',
+            mt: '28px',
+            }}
+        >
+            <Container maxWidth="xl">
+                <StyledToolbar>
+                    <Typography variant="h6" sx={{ color: '#5d8aa8' }}>
+                        PERSEPTUAL
+                    </Typography>
+                    <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+                        <Button variant={buttonVariant('1')} color="info" size="medium">
+                            Главная
+                        </Button>
+                        <Button variant={buttonVariant('2')} color="info" size="medium">
+                            Таблица
+                        </Button>
+                        <Button variant={buttonVariant('3')} color="info" size="medium">
+                            Список игр
+                        </Button>
+                    </Box>
+                    <Box sx={{ display: { xs: 'flex', md: 'none' }}}>
+                        <IconButton aria-label="Menu button" onClick={toggleDrawer(true)}>
+                            <MenuIcon />
+                        </IconButton>
 
-  return (
-    <AppBar position="static" sx={{ boxShadow: 0, bgcolor: '#1f2933' }}>
-      <Container maxWidth="lg">
-        <Toolbar disableGutters sx={{ gap: 2 }}>
-          <Typography variant="h6" sx={{ flexShrink: 0, fontWeight: 700 }}>
-            PERSEPTUAL
-          </Typography>
-
-          <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 1, flexGrow: 1 }}>
-            {pages.map((page) => (
-              <Button key={page.id} variant={buttonVariant(page.id)} color="info">
-                {page.label}
-              </Button>
-            ))}
-          </Box>
-
-          <Box component="form" sx={{ display: { xs: 'none', md: 'flex' }, gap: 1 }}>
-            <TextField
-              size="small"
-              placeholder="Поиск..."
-              variant="outlined"
-              sx={{ bgcolor: 'background.paper', borderRadius: 1 }}
-            />
-            <Button variant="outlined" color="inherit">
-              Найти
-            </Button>
-          </Box>
-
-          <Box sx={{ display: { xs: 'flex', md: 'none' }, ml: 'auto' }}>
-            <IconButton aria-label="Открыть меню" onClick={toggleDrawer(true)} color="inherit">
-              <MenuIcon />
-            </IconButton>
-
-            <Drawer anchor="top" open={open} onClose={toggleDrawer(false)}>
-              <Box>
-                <Box sx={{ display: 'flex', justifyContent: 'flex-end', p: 1 }}>
-                  <IconButton aria-label="Закрыть меню" onClick={toggleDrawer(false)}>
-                    <CloseRoundedIcon />
-                  </IconButton>
-                </Box>
-                <MenuList>
-                  {pages.map((page) => (
-                    <MenuItem key={page.id} sx={drawerItemSx(page.id)}>
-                      {page.label}
-                    </MenuItem>
-                  ))}
-                </MenuList>
-              </Box>
-            </Drawer>
-          </Box>
-        </Toolbar>
-      </Container>
-    </AppBar>
-  );
+                        <Drawer
+                            anchor="top"
+                            open={ open }
+                            onClose={toggleDrawer(false)}
+                        >
+                            <Box>
+                                <Box
+                                    sx={{
+                                        display: 'flex',
+                                        justifyContent: 'flex-end',
+                                    }}
+                                >
+                                    <IconButton onClick={toggleDrawer(false)}>
+                                        <CloseRoundedIcon />
+                                    </IconButton>
+                                </Box>
+                                <MenuList>
+                                    <MenuItem sx={drawerItemSx('1')}>
+                                        Главная
+                                    </MenuItem>
+                                    <MenuItem sx={drawerItemSx('2')}>
+                                        Таблица
+                                    </MenuItem>
+                                    <MenuItem sx={drawerItemSx('3')}>
+                                        Список игр
+                                    </MenuItem> 
+                                </MenuList>
+                            </Box>
+                        </Drawer>
+                    </Box>
+                </StyledToolbar>
+            </Container>
+        </AppBar>
+    );
 }
 
 export default Navbar;

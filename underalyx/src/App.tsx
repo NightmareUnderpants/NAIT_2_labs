@@ -1,6 +1,6 @@
 import Box from '@mui/material/Box';
 import './styles/App.css';
-import ContentSections from './components/ContentSections';
+import Content from './components/Content';
 import Footer from './components/Footer';
 import Gallery from './components/Gallery';
 import Navbar from './components/Navbar';
@@ -8,11 +8,11 @@ import TeamSection from './components/TeamSection';
 
 function App() {
   return (
-    <Box className="app-shell">
+    <Box>
       <Navbar active="1" />
       <Gallery />
       <TeamSection />
-      <ContentSections />
+      <Content />
       <Footer />
     </Box>
   );
