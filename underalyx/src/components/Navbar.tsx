@@ -12,6 +12,7 @@ import React from 'react';
 import MenuItem from '@mui/material/MenuItem';
 import MenuList from '@mui/material/MenuList';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
+import { Link } from 'react-router';
 
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({
     display: 'flex',
@@ -61,15 +62,22 @@ function Navbar({ active } : ComponentProps) {
                         PERSEPTUAL
                     </Typography>
                     <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-                        <Button variant={buttonVariant('1')} color="info" size="medium">
-                            Главная
-                        </Button>
-                        <Button variant={buttonVariant('2')} color="info" size="medium">
-                            Таблица
-                        </Button>
-                        <Button variant={buttonVariant('3')} color="info" size="medium">
-                            Список игр
-                        </Button>
+
+                        <Link to="/">
+                            <Button variant={buttonVariant('1')} color="info" size="medium">
+                                Главная
+                            </Button>
+                        </Link>
+                        <Link to="/table">
+                            <Button variant={buttonVariant('2')} color="info" size="medium">
+                                Таблица
+                            </Button>
+                    </Link>
+                        <Link to="/chart">
+                            <Button variant={buttonVariant('3')} color="info" size="medium">
+                                График производительности
+                            </Button>
+                        </Link>
                     </Box>
                     <Box sx={{ display: { xs: 'flex', md: 'none' }}}>
                         <IconButton aria-label="Menu button" onClick={toggleDrawer(true)}>
@@ -93,14 +101,14 @@ function Navbar({ active } : ComponentProps) {
                                     </IconButton>
                                 </Box>
                                 <MenuList>
-                                    <MenuItem sx={drawerItemSx('1')}>
+                                    <MenuItem component={Link} to="/" sx={drawerItemSx('1')}>
                                         Главная
                                     </MenuItem>
-                                    <MenuItem sx={drawerItemSx('2')}>
+                                    <MenuItem component={Link} to="/table" sx={drawerItemSx('2')}>
                                         Таблица
                                     </MenuItem>
-                                    <MenuItem sx={drawerItemSx('3')}>
-                                        Список игр
+                                    <MenuItem component={Link} to="/chart" sx={drawerItemSx('3')}>
+                                        График производительности
                                     </MenuItem> 
                                 </MenuList>
                             </Box>

@@ -4,8 +4,10 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
-import { pageText, teamMembers } from '../data/pageData';
 import Grid from '@mui/material/Grid';
+
+import { pageText, teamMembers } from '../data';
+import '../../styles/App.css'
 
 function TeamSection() {
   return (

@@ -12,6 +12,7 @@ import React from 'react';
 import MenuItem from '@mui/material/MenuItem';
 import MenuList from '@mui/material/MenuList';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
+import {Link} from 'react-router-dom'; 
 
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({
     display: 'flex',
@@ -61,26 +62,32 @@ function Navbar({ active } : ComponentProps) {
                         Самые высокие здания и сооружения
                     </Typography>
                     <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-                        <Button variant={buttonVariant('1')} color="info" size="medium">
-                            Главная
-                        </Button>
-                        <Button variant={buttonVariant('2')} color="info" size="medium">
-                            Список зданий
-                        </Button>
-                        <Button variant={buttonVariant('3')} color="info" size="medium">
-                            Контакты
-                        </Button>
+
+                        <Link to="/">
+                            <Button variant={buttonVariant('1')} color="info" size="medium">
+                                Главная
+                            </Button>
+                        </Link>
+
+                        <Link to="/list">
+                            <Button variant={buttonVariant('2')} color="info" size="medium">
+                                Список зданий
+                            </Button>
+                        </Link>
+
+                        <Link to="/chart">
+                            <Button variant={buttonVariant('3')} color="info" size="medium">
+                                Диаграммы
+                            </Button>
+                        </Link>
+
                     </Box>
                     <Box sx={{ display: { xs: 'flex', md: 'none' }}}>
                         <IconButton aria-label="Menu button" onClick={toggleDrawer(true)}>
                             <MenuIcon />
                         </IconButton>
 
-                        <Drawer
-                            anchor="top"
-                            open={ open }
-                            onClose={toggleDrawer(false)}
-                        >
+                        <Drawer anchor="top" open={ open } onClose={toggleDrawer(false)}>
                             <Box>
                                 <Box
                                     sx={{
@@ -93,15 +100,19 @@ function Navbar({ active } : ComponentProps) {
                                     </IconButton>
                                 </Box>
                                 <MenuList>
-                                    <MenuItem sx={drawerItemSx('1')}>
+
+                                    <MenuItem component={Link} to="/" sx={drawerItemSx('1')} onClick={toggleDrawer(false)}>
                                         Главная
                                     </MenuItem>
-                                    <MenuItem sx={drawerItemSx('2')}>
+
+                                    <MenuItem component={Link} to="/list" sx={drawerItemSx('2')} onClick={toggleDrawer(false)}>
                                         Список зданий
                                     </MenuItem>
-                                    <MenuItem sx={drawerItemSx('3')}>
-                                        Контакты
-                                    </MenuItem> 
+
+                                    <MenuItem component={Link} to="/chart" sx={drawerItemSx('3')} onClick={toggleDrawer(false)}>
+                                        Диаграммы
+                                    </MenuItem>
+
                                 </MenuList>
                             </Box>
                         </Drawer>

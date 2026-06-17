@@ -1,6 +1,6 @@
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
-import { pageText } from '../data/pageData';
+import { pageText } from '../data';
 import InfoCard from './InfoCard';
 import Grid from '@mui/material/Grid';
 

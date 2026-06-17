@@ -18,10 +18,13 @@ function InfoCard({ image, title, text, direction = "right" }: InfoCardProps) {
     <Card sx={{ height: '100%'}}>
       <Box sx={{
           display: 'flex',
-          flexDirection: direction === 'right' ? 'row-reverse' : 'row',
+          flexDirection: {
+            xs: 'column',
+            md: direction === 'right' ? 'row-reverse' : 'row',
+          },
           height: '100%',
         }}>
-        {image && <CardMedia component="img" image={image} alt={title} sx={{maxWidth: '35%', objectFit: 'cover'}}/>}
+        {image && <CardMedia component="img" image={image} alt={title} sx={{maxWidth: {md: '35%', xs: '100%'}, objectFit: 'cover'}}/>}
         <CardContent>
           <Typography variant="h5" gutterBottom>
             {title}
