@@ -72,10 +72,15 @@ function Navbar({ active } : ComponentProps) {
                             <Button variant={buttonVariant('2')} color="info" size="medium">
                                 Таблица
                             </Button>
-                    </Link>
+                        </Link>
                         <Link to="/chart">
                             <Button variant={buttonVariant('3')} color="info" size="medium">
                                 График производительности
+                            </Button>
+                        </Link>
+                        <Link to="/testing">
+                            <Button variant={buttonVariant('4')} color="info" size="medium">
+                                Проверь себя
                             </Button>
                         </Link>
                     </Box>
@@ -109,6 +114,9 @@ function Navbar({ active } : ComponentProps) {
                                     </MenuItem>
                                     <MenuItem component={Link} to="/chart" sx={drawerItemSx('3')}>
                                         График производительности
+                                    </MenuItem> 
+                                    <MenuItem component={Link} to="/testing" sx={drawerItemSx('4')}>
+                                        Проверь себя
                                     </MenuItem> 
                                 </MenuList>
                             </Box>

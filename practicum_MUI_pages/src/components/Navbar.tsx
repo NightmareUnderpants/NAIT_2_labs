@@ -81,6 +81,12 @@ function Navbar({ active } : ComponentProps) {
                             </Button>
                         </Link>
 
+                        <Link to="/testing">
+                            <Button variant={buttonVariant('4')} color="info" size="medium">
+                                Проверь себя
+                            </Button>
+                        </Link>
+
                     </Box>
                     <Box sx={{ display: { xs: 'flex', md: 'none' }}}>
                         <IconButton aria-label="Menu button" onClick={toggleDrawer(true)}>
@@ -111,6 +117,10 @@ function Navbar({ active } : ComponentProps) {
 
                                     <MenuItem component={Link} to="/chart" sx={drawerItemSx('3')} onClick={toggleDrawer(false)}>
                                         Диаграммы
+                                    </MenuItem>
+
+                                    <MenuItem component={Link} to="/testing" sx={drawerItemSx('4')} onClick={toggleDrawer(false)}>
+                                        Проверь себя
                                     </MenuItem>
 
                                 </MenuList>

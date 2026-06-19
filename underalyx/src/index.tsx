@@ -7,11 +7,14 @@ import {
   createBrowserRouter, 
   RouterProvider, 
 } from "react-router-dom";
+import { Provider } from 'react-redux';
 
 import Main from './main/Main';
 import Table from './table/Table';
 import Chart from './chart/Chart';
 import Description from './description/Description';
+import store from './store';
+import Testing from './testing/Testing';
 
 const router = createBrowserRouter([ 
   { 
@@ -30,6 +33,10 @@ const router = createBrowserRouter([
     path: "/chart", 
     element: <Chart />, 
   }, 
+  { 
+    path: "/testing", 
+    element: <Testing />, 
+  }, 
 ]); 
 
 const root = ReactDOM.createRoot(
@@ -38,7 +45,9 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router} /> 
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
   </React.StrictMode>
 );
 
